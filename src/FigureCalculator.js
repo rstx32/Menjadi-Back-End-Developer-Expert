@@ -30,8 +30,42 @@ class FigureCalculator {
 
     return this._mathBasic.multiply(length, width)
   }
-  calculateTrianglePerimeter() {}
-  calculateTriangleArea() {}
+
+  calculateTrianglePerimeter(...args) {
+    if (args.length !== 3) {
+      throw new Error('fungsi hanya menerima tiga parameter')
+    }
+
+    const [sideA, sideB, base] = args
+
+    if (
+      typeof sideA !== 'number' ||
+      typeof sideB !== 'number' ||
+      typeof base !== 'number'
+    ) {
+      throw new Error('fungsi hanya menerima parameter number')
+    }
+
+    return this._mathBasic.add(this._mathBasic.add(sideA, sideB), base)
+  }
+
+  calculateTriangleArea(...args) {
+    if (args.length !== 3) {
+      throw new Error('fungsi hanya menerima tiga parameter')
+    }
+
+    const [sideA, sideB, base] = args
+
+    if (
+      typeof sideA !== 'number' ||
+      typeof sideB !== 'number' ||
+      typeof base !== 'number'
+    ) {
+      throw new Error('fungsi hanya menerima parameter number')
+    }
+
+    return this._mathBasic.divide(this._mathBasic.multiply(base, sideB), 2)
+  }
 }
 
 module.exports = FigureCalculator
