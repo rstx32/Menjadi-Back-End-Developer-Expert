@@ -1,4 +1,5 @@
 const createServer = require('./createServer')
+const FigureCalculator = require('./FigureCalculator')
 const MathBasic = require('./MathBasic')
 
 describe('A HTTP Server', () => {
@@ -87,6 +88,58 @@ describe('A HTTP Server', () => {
       expect(response.statusCode).toEqual(200)
       expect(responseJson.value).toEqual(4)
       expect(spyDivide).toBeCalledWith(a, b)
+    })
+  })
+
+  describe('when GET /rectangle/perimeter/{length}/{width}', () => {
+    it('should respond with a status code of 200 and the payload value is rectangle perimeter result of length and width correctly', async () => {
+      // arrange
+      const length = 5
+      const width = 7
+      const figureCalculator = new FigureCalculator(MathBasic)
+      const spyRectanglePerimeter = jest.spyOn(
+        figureCalculator,
+        'calculateRectanglePerimeter'
+      )
+      const server = createServer({ figureCalculator })
+
+      // action
+      const response = await server.inject({
+        method: 'GET',
+        url: `/rectangle/perimeter/${length}/${width}`,
+      })
+
+      // assert
+      const responseJson = JSON.parse(response.payload)
+      expect(response.statusCode).toEqual(200)
+      expect(responseJson.value).toEqual(24)
+      expect(spyRectanglePerimeter).toBeCalledWith(length, width)
+    })
+  })
+
+  describe('when GET /rectangle/area/{length}/{width}', () => {
+    it('should respond with a status code of 200 and the payload value is rectangle area result of length and width correctly', async () => {
+      // arrange
+      const length = 5
+      const width = 7
+      const figureCalculator = new FigureCalculator(MathBasic)
+      const spyRectangleArea = jest.spyOn(
+        figureCalculator,
+        'calculateRectangleArea'
+      )
+      const server = createServer({ figureCalculator })
+
+      // action
+      const response = await server.inject({
+        method: 'GET',
+        url: `/rectangle/area/${length}/${width}`,
+      })
+
+      // assert
+      const responseJson = JSON.parse(response.payload)
+      expect(response.statusCode).toEqual(200)
+      expect(responseJson.value).toEqual(35)
+      expect(spyRectangleArea).toBeCalledWith(length, width)
     })
   })
 })
