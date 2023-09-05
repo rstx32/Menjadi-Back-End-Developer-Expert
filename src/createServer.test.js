@@ -142,4 +142,31 @@ describe('A HTTP Server', () => {
       expect(spyRectangleArea).toBeCalledWith(length, width)
     })
   })
+
+  describe('when GET /triangle/perimeter/{sideA}/{sideB}/{base}', () => {
+    it('should respond with a status code of 200 and the payload value is rectangle area result of length and width correctly', async () => {
+      // arrange
+      const sideA = 5
+      const sideB = 4
+      const base = 3
+      const figureCalculator = new FigureCalculator(MathBasic)
+      const spyTrianglePerimeter = jest.spyOn(
+        figureCalculator,
+        'calculateTrianglePerimeter'
+      )
+      const server = createServer({ figureCalculator })
+
+      // action
+      const response = await server.inject({
+        method: 'GET',
+        url: `/triangle/perimeter/${sideA}/${sideB}/${base}`,
+      })
+
+      // assert
+      const responseJson = JSON.parse(response.payload)
+      expect(response.statusCode).toEqual(200)
+      expect(responseJson.value).toEqual(12)
+      expect(spyTrianglePerimeter).toBeCalledWith(sideA, sideB, base)
+    })
+  })
 })

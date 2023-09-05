@@ -48,7 +48,10 @@ const createServer = ({ mathBasic, figureCalculator }) => {
       path: '/rectangle/perimeter/{length}/{width}',
       handler: (request) => {
         const { length, width } = request.params
-        const value = figureCalculator.calculateRectanglePerimeter(Number(length), Number(width))
+        const value = figureCalculator.calculateRectanglePerimeter(
+          Number(length),
+          Number(width)
+        )
         return { value }
       },
     },
@@ -57,7 +60,23 @@ const createServer = ({ mathBasic, figureCalculator }) => {
       path: '/rectangle/area/{length}/{width}',
       handler: (request) => {
         const { length, width } = request.params
-        const value = figureCalculator.calculateRectangleArea(Number(length), Number(width))
+        const value = figureCalculator.calculateRectangleArea(
+          Number(length),
+          Number(width)
+        )
+        return { value }
+      },
+    },
+    {
+      method: 'GET',
+      path: '/triangle/perimeter/{sideA}/{sideB}/{base}',
+      handler: (request) => {
+        const { sideA, sideB, base } = request.params
+        const value = figureCalculator.calculateTrianglePerimeter(
+          Number(sideA),
+          Number(sideB),
+          Number(base)
+        )
         return { value }
       },
     },
