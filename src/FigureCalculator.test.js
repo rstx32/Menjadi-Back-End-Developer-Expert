@@ -63,4 +63,45 @@ describe('A FigureCalculator', () => {
       expect(spyMultiply).toHaveBeenCalledWith(2, 30)
     })
   })
+
+  describe('A calculateRectangleArea', () => {
+    it('should throw error when not given 2 parameters', () => {
+      const figureCalculator = new FigureCalculator({})
+
+      expect(() => figureCalculator.calculateRectangleArea()).toThrowError()
+      expect(() => figureCalculator.calculateRectangleArea(1)).toThrowError()
+      expect(() =>
+        figureCalculator.calculateRectangleArea(1, 2, 3)
+      ).toThrowError()
+    })
+
+    it('should throw error when given with non-numbers parameters', () => {
+      const figureCalculator = new FigureCalculator({})
+
+      expect(() =>
+        figureCalculator.calculateRectanglePerimeter(true, {})
+      ).toThrowError()
+      expect(() =>
+        figureCalculator.calculateRectanglePerimeter(null, '2')
+      ).toThrowError()
+      expect(() =>
+        figureCalculator.calculateRectanglePerimeter([], {})
+      ).toThrowError()
+    })
+
+    it('should return correct value based on rectangle area formula', () => {
+      // arrange
+      const length = 20
+      const width = 10
+      const spyMultiply = jest.spyOn(MathBasic, 'multiply')
+      const figureCalculator = new FigureCalculator(MathBasic)
+
+      // action
+      const result = figureCalculator.calculateRectangleArea(length, width)
+
+      // assert
+      expect(result).toEqual(200)
+      expect(spyMultiply).toHaveBeenCalledWith(20, 10)
+    })
+  })
 })
